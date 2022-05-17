@@ -1,16 +1,16 @@
-from sklearn import metrics
-from sklearn import tree
-import matplotlib.pyplot as plt
-from sklearn.ensemble import RandomForestClassifier
-import pandas as pd
-# Import scikit-learn dataset library
-from sklearn import datasets
-from sklearn.model_selection import train_test_split
-from sklearn.tree import export_graphviz
+# Load libraries
+
 from IPython.display import Image
 from six import StringIO
 import pydotplus
-import os
+from sklearn.tree import export_graphviz
+import pandas as pd
+from sklearn.tree import DecisionTreeClassifier  # Import Decision Tree Classifier
+# Import train_test_split function
+from sklearn.model_selection import train_test_split
+# Import scikit-learn metrics module for accuracy calculation
+from sklearn import metrics
+
 
 df = pd.read_csv('Fraud.csv')
 
@@ -20,28 +20,23 @@ y = df['isFraud']
 
 # Split dataset into training set and test set
 X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.3)  # 70% training and 30% test
+    X, y, test_size=0.3, random_state=1)  # 70% training and 30% test
+# Create Decision Tree classifer object
+clf = DecisionTreeClassifier(criterion="entropy", max_depth=5)
 
-# Import Random Forest Model
-
-# Create a Gaussian Classifier
-clf = RandomForestClassifier(
-    n_estimators=100, random_state=0, criterion="entropy", max_depth=5)
-
-# Train the model using the training sets y_pred=clf.predict(X_test)
+# Train Decision Tree Classifer
 clf = clf.fit(X_train, y_train)
 
+# Predict the response for test dataset
 y_pred = clf.predict(X_test)
-
-# Import scikit-learn metrics module for accuracy calculation
 # Model Accuracy, how often is the classifier correct?
 print("Accuracy:", metrics.accuracy_score(y_test, y_pred))
 
 dot_data = StringIO()
-export_graphviz(clf.estimators_[0], out_file=dot_data,
+export_graphviz(clf, out_file=dot_data,
                 filled=True, rounded=True,
                 special_characters=True, feature_names=['amount', 'oldbalanceOrg', 'newbalanceOrig',
                                                         'oldbalanceDest', 'newbalanceDest'], class_names=['No fraude', 'Fraude'])
 graph = pydotplus.graph_from_dot_data(dot_data.getvalue())
-graph.write_png('RandomForest.png')
+graph.write_png('tree.png')
 Image(graph.create_png())
