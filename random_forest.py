@@ -11,8 +11,17 @@ from IPython.display import Image
 from six import StringIO
 import pydotplus
 import os
-
+import time
+start_time = time.time()
 df = pd.read_csv('Fraud.csv')
+df = pd.read_csv('Fraud.csv')
+
+df_2 = df[df['isFraud'] == 0]
+df_3 = df_2.head(8213)
+
+df_1 = df[df['isFraud'] == 1]
+
+df = pd.concat([df_1, df_3])
 
 X = df[['amount', 'oldbalanceOrg', 'newbalanceOrig',
         'oldbalanceDest', 'newbalanceDest']]
@@ -45,3 +54,4 @@ export_graphviz(clf.estimators_[0], out_file=dot_data,
 graph = pydotplus.graph_from_dot_data(dot_data.getvalue())
 graph.write_png('RandomForest.png')
 Image(graph.create_png())
+print("--- %s seconds ---" % (time.time() - start_time))

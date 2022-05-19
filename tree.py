@@ -10,9 +10,18 @@ from sklearn.tree import DecisionTreeClassifier  # Import Decision Tree Classifi
 from sklearn.model_selection import train_test_split
 # Import scikit-learn metrics module for accuracy calculation
 from sklearn import metrics
-
+import time
+start_time = time.time()
 
 df = pd.read_csv('Fraud.csv')
+df = pd.read_csv('Fraud.csv')
+
+df_2 = df[df['isFraud'] == 0]
+df_3 = df_2.head(8213)
+
+df_1 = df[df['isFraud'] == 1]
+
+df = pd.concat([df_1, df_3])
 
 X = df[['amount', 'oldbalanceOrg', 'newbalanceOrig',
         'oldbalanceDest', 'newbalanceDest']]
@@ -40,3 +49,4 @@ export_graphviz(clf, out_file=dot_data,
 graph = pydotplus.graph_from_dot_data(dot_data.getvalue())
 graph.write_png('tree.png')
 Image(graph.create_png())
+print("--- %s seconds ---" % (time.time() - start_time))
