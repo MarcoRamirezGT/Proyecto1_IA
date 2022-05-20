@@ -1,9 +1,9 @@
+# Librerias para random forest
 from sklearn import metrics
 from sklearn import tree
 import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestClassifier
 import pandas as pd
-# Import scikit-learn dataset library
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
 from sklearn.tree import export_graphviz
@@ -12,9 +12,12 @@ from six import StringIO
 import pydotplus
 import os
 import time
+
+# Para medir el tiempo
 start_time = time.time()
+# Leemos la base de datos
 df = pd.read_csv('Fraud.csv')
-df = pd.read_csv('Fraud.csv')
+
 
 df_2 = df[df['isFraud'] == 0]
 df_3 = df_2.head(8213)
@@ -32,8 +35,6 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.3)  # 70% training and 30% test
 
 # Import Random Forest Model
-
-# Create a Gaussian Classifier
 clf = RandomForestClassifier(
     n_estimators=100, random_state=0, criterion="entropy", max_depth=5)
 
@@ -42,8 +43,6 @@ clf = clf.fit(X_train, y_train)
 
 y_pred = clf.predict(X_test)
 
-# Import scikit-learn metrics module for accuracy calculation
-# Model Accuracy, how often is the classifier correct?
 print("Accuracy:", metrics.accuracy_score(y_test, y_pred))
 
 dot_data = StringIO()
