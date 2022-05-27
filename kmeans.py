@@ -4,8 +4,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
-
+import pyclustertend
+import sklearn.preprocessing
 from matplotlib.patches import Ellipse
+
+from sklearn.metrics import accuracy_score
 
 from sklearn.mixture import GaussianMixture
 from sklearn.preprocessing import StandardScaler
@@ -15,6 +18,9 @@ import time
 start_time = time.time()
 
 
+#ESTADISTICO DE HOPKINS
+# X_scale=sklearn.preprocessing.scale(X)
+# print(pyclustertend.hopkins(X,len(X)))
 
 dataset = pd.read_csv('Fraud.csv')
 df2 = pd.DataFrame(dataset)
@@ -37,11 +43,11 @@ df_training = pd.concat([df_FraudTraining, df_notFraudTrainig])
 
 X = df_training[['amount', 'oldbalanceOrg', 'newbalanceOrig',
         'oldbalanceDest', 'newbalanceDest']]
-print (X)
+#print (X)
 Y = df_training['isFraud']
-print(Y)
+#print(Y)
 
-print(df_training)
+#print(df_training)
 
 
 scaler = StandardScaler()
@@ -53,7 +59,14 @@ kmeans.fit(X)
 
 predicted_y = kmeans.fit_predict(X)
 
-print("--- %s seconds ---" % (time.time() - start_time))
+
+##dibujar clusters de kmeans.
+
+plt.scatter(X['amount'], X['newbalanceDest'], s=2,)
+plt.show()
+
+#'amount' 'oldbalanceOrg' 'newbalanceOrigoldbalanceDest', 'newbalanceDest'
+#amount - new balnce ;  amount-oldbalanceorg; amount newbalanceorig ; amount oldbalancedest; 
 
 
 
@@ -79,15 +92,18 @@ print("--- %s seconds ---" % (time.time() - start_time))
 # ## metodo para determinar el numero de clusters
 # N = np.arange(1,10)
 # state= 0
-# gmm = [ GaussianMixture( n, covariance_type ="full", random_state=state).fit(X)  for n in N]
+# gmm = [ GaussianMixture( n, covariance_type ="full", random_state=state).fit(scaled_features)  for n in N]
 # for model in gmm :
-# 	print(model.bic(X))
+# 	print(model.bic(scaled_features))
 
-# plt.plot(N, [model.bic(X) for model in gmm] , "o-", label ="BIC")
+# plt.plot(N, [model.bic(scaled_features) for model in gmm] , "o-", label ="BIC")
 # plt.xlabel("# de clusters")
 # plt.ylabel("BIC score")
 # plt.title("Gráfico de Codo Gaussian Mixture models ")
 # plt.savefig('codo Gaussian mixture models.png')
 # plt.show()
 
+
+
+#sns.scatterplot(x=, y= , hue= 'Cluster', data=df)
 print("--- %s seconds ---" % (time.time() - start_time))

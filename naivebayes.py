@@ -45,10 +45,11 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, Y, test_size=0.3)
 
 
-gnb = GaussianNB()
-y_pred = gnb.fit(X_train, y_train).predict(X_test)
-failure= ((y_test != y_pred).sum()) / (X_test.shape[0])
-print("Number of mislabeled points out of a total %d points : %d" % (X_test.shape[0], (y_test != y_pred).sum()))
-print( " Accuracy" , 1-failure)
-scaler = StandardScaler()
-scaled_features = scaler.fit_transform(X)
+# gnb = GaussianNB()
+# y_pred = gnb.fit(X_train, y_train).predict(X_test)
+# failure= ((y_test != y_pred).sum()) / (X_test.shape[0])
+# print("Number of mislabeled points out of a total %d points : %d" % (X_test.shape[0], (y_test != y_pred).sum()))
+# print( " Accuracy" , 1-failure)
+# print("--- %s seconds ---" % (time.time() - start_time))
+# scaler = StandardScaler()
+# scaled_features = scaler.fit_transform(X)
